@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,40 +12,121 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            ContoCorrente conto = new ContoCorrente();
-            conto.MenuInizialeStart();
+            for (int i = 0; i <= 100; i++)
+            {
+                Persona p = new Persona();  
+            }
+            Persona.ContaPersone();
         }
+
+
+        public class Persona
+        {
+            private static int NumeroPersone;
+            public string Nome { get; set; }
+            public string Cognome { get; set; }
+
+            public virtual void ScriviDatiPersona()
+            {
+                Console.WriteLine($"La persona si chiama {Nome} {Cognome}");
+                Console.ReadLine();
+            }
+
+           public static void ContaPersone()
+            {
+                Console.WriteLine(NumeroPersone);
+            }
+
+            public Persona()
+            {
+                NumeroPersone += 1;
+            }
+        }
+
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        public class Dipendente:Persona
+        {
+            public string Dipartimento { get; set; }
+            public override void ScriviDatiPersona()
+            {
+                base.ScriviDatiPersona();
+                Console.WriteLine($"Il dipendente fa parte dell'ufficio {Dipartimento}");
+                Console.ReadLine();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public class ContoCorrente
         {
             private string _cognomeCorrentista;
-            public string CognomeCorrentista
-            {
-                get { return _cognomeCorrentista; }
-                set { _cognomeCorrentista = value; }
-            }
+         
 
             private string _nomeCorrentista;
 
-            public string NomeCorrentista
-            {
-                get { return _nomeCorrentista; }
-                set { _nomeCorrentista = value; }
-            }
-
+         
             private decimal _saldo = 0;
-            public decimal Saldo
-            {
-                get { return _saldo; }
-                set { _saldo = value; }
-            }
-
+         
             private bool _contoAperto = false;
 
             public bool ContoAperto
             {
                 get { return _contoAperto; }
                 set { _contoAperto = value; }
+            }
+
+            public string StatoConto
+            {
+                get { 
+                    if (_contoAperto == true)
+                    {
+                        return "Il conto risulta aperto";
+                    } else
+                    {
+                        return "Il conto risulta chiuso";
+                    }
+                }
+            }
+
+
+            public string DettaglioConto
+            {
+                get
+                {if (_contoAperto)
+                    {
+                        return $"Conto intestato a {_cognomeCorrentista} {_nomeCorrentista}";
+                    }
+                    else
+                    {
+                        return "Nessun conto aperto";
+                    }
+                }
             }
 
             public ContoCorrente()
@@ -53,7 +136,6 @@ namespace ConsoleApp1
 
             public void MenuInizialeStart()
             {
-
                 Console.WriteLine("==========================================");
                 Console.WriteLine("I N T E S A   S A N   M A R C O   B A N K");
                 Console.WriteLine("==========================================");
@@ -62,7 +144,8 @@ namespace ConsoleApp1
                 Console.WriteLine("1. APRI NUOVO CONTO CORRENTE");
                 Console.WriteLine("2. EFFETTUA UN VERSAMENTO");
                 Console.WriteLine("3. EFFETTUA UN PRELEVAMENTO");
-                Console.WriteLine("4. ESCI");
+                Console.WriteLine("4. STAMPA DETTAGLIO CONTO");
+                Console.WriteLine("5. ESCI");
 
                 int scelta = int.Parse(Console.ReadLine());
 
@@ -80,7 +163,10 @@ namespace ConsoleApp1
                 }
                 else if (scelta == 4)
                 {
-                    Console.WriteLine("Chiusura programma in corso");
+                    Console.Write(DettaglioConto);
+                } else if (scelta == 5)
+                {
+                    Console.WriteLine("Chiusura programma");
                 }
                 else
                 {
@@ -98,7 +184,6 @@ namespace ConsoleApp1
                 Console.WriteLine("Nome Correntista: ");
                 string Nome = Console.ReadLine();
 
-                ContoCorrente c = new ContoCorrente();
                 _cognomeCorrentista = Cognome;
                 _nomeCorrentista = Nome;
                 _saldo = 0;
@@ -149,8 +234,6 @@ namespace ConsoleApp1
                 }
                 MenuInizialeStart();
             }
-
-
         }
     }
 }
