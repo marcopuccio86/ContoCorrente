@@ -17,6 +17,7 @@ namespace ConsoleApp1
                 Persona p = new Persona();  
             }
             Persona.ContaPersone();
+
         }
 
 
